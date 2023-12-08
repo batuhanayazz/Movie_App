@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
+import {COLORS} from '../theme/theme';
 
-interface componentNameProps {}
-
-const componentName = (props: componentNameProps) => {
+const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text>componentName</Text>
@@ -11,8 +10,8 @@ const componentName = (props: componentNameProps) => {
   );
 };
 
-export default componentName;
-
 const styles = StyleSheet.create({
-  container: {}
+  container: {},
 });
+
+export default HomeScreen;
