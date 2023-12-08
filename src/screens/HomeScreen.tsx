@@ -9,13 +9,14 @@ import {
   ScrollView,
   StatusBar,
 } from 'react-native';
-import {COLORS} from '../theme/theme';
+import {COLORS, SPACING} from '../theme/theme';
 import {
   upComingMovies,
   nowPlayingMovies,
   popularMovies,
   baseImagePath,
 } from '../api/apicalls';
+import InputHeader from '../components/InputHeader';
 
 const {width, height} = Dimensions.get('window');
 
@@ -38,6 +39,9 @@ const HomeScreen = ({navigation}: any) => {
         bounces={false}
         contentContainerStyle={styles.scrollViewContainer}>
         <StatusBar hidden />
+        <View style={styles.InputHeaderContainer}>
+          <InputHeader />
+        </View>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={COLORS.Orange} />
         </View>
@@ -60,6 +64,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     justifyContent: 'center',
+  },
+  InputHeaderContainer: {
+    marginHorizontal: SPACING.space_36,
+    marginTop: SPACING.space_28,
   },
 });
 
