@@ -16,7 +16,6 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import CustomIcon from './src/components/CustomIcon';
 import {
   Colors,
   DebugInstructions,
@@ -24,6 +23,9 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import CustomIcon from './src/components/CustomIcon';
+import {COLORS} from './src/theme/theme';
+import {searchMovies, upComingMovies, popularMovies} from './src/api/apicalls';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -61,7 +63,7 @@ function App(): React.JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
+  console.log(searchMovies('Avengers'));
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
