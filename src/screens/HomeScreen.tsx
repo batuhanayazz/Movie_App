@@ -25,6 +25,11 @@ const HomeScreen = ({navigation}: any) => {
     useState<any>(undefined);
   const [upcomingMoviesList, setupComingMoviesList] = useState<any>(undefined);
   const [popularMoviesList, setpopularMoviesList] = useState<any>(undefined);
+
+  const searchMoviesFunction = () => {
+    navigation.navigate('Search');
+  };
+
   if (
     nowPlayingMoviesList == undefined &&
     nowPlayingMoviesList == null &&
@@ -40,7 +45,7 @@ const HomeScreen = ({navigation}: any) => {
         contentContainerStyle={styles.scrollViewContainer}>
         <StatusBar hidden />
         <View style={styles.InputHeaderContainer}>
-          <InputHeader />
+          <InputHeader searchFunction={searchMoviesFunction} />
         </View>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={COLORS.Orange} />
@@ -48,7 +53,17 @@ const HomeScreen = ({navigation}: any) => {
       </ScrollView>
     );
   }
-  return <View style={styles.container}></View>;
+  return (
+    <ScrollView
+      style={styles.container}
+      bounces={false}
+      contentContainerStyle={styles.scrollViewContainer}>
+      <StatusBar hidden />
+      <View style={styles.InputHeaderContainer}>
+        <InputHeader searchFunction={searchMoviesFunction} />
+      </View>
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
