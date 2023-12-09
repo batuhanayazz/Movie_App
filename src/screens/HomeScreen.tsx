@@ -151,7 +151,7 @@ const HomeScreen = ({navigation}: any) => {
               title={item.original_title}
               imagePath={baseImagePath('w780', item.poster_path)}
               genre={item.genre_ids.slice(1, 4)}
-              vote_average={item.vote_average}
+              vote_average={Math.round(item.vote_average)}
               vote_count={item.vote_count}
             />
           );
