@@ -120,10 +120,6 @@ const HomeScreen = ({navigation}: any) => {
     <ScrollView style={styles.container} bounces={false}>
       <StatusBar hidden />
 
-      <View style={styles.InputHeaderContainer}>
-        <InputHeader searchFunction={searchMoviesFunction} />
-      </View>
-
       <CategoryHeader title={'Now Playing'} />
       <FlatList
         data={nowPlayingMoviesList}
