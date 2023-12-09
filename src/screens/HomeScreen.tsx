@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   ScrollView,
   StatusBar,
+  FlatList,
 } from 'react-native';
 import {COLORS, SPACING} from '../theme/theme';
 import {
@@ -17,6 +18,8 @@ import {
   baseImagePath,
 } from '../api/apicalls';
 import InputHeader from '../components/InputHeader';
+import CategoryHeader from '../components/CategoryHeader';
+import SubMovieCard from '../components/SubMovieCard';
 
 const {width, height} = Dimensions.get('window');
 
@@ -50,7 +53,7 @@ const getPopularMoviesList = async () => {
   }
 };
 const HomeScreen = ({navigation}: any) => {
-  const [nowPlayingMoviesList, setnowPlayingMoviesList] =
+  const [nowPlayingMoviesList, setNowPlayingMoviesList] =
     useState<any>(undefined);
   const [upcomingMoviesList, setUpComingMoviesList] = useState<any>(undefined);
   const [popularMoviesList, setPopularMoviesList] = useState<any>(undefined);
@@ -58,20 +61,18 @@ const HomeScreen = ({navigation}: any) => {
   useEffect(() => {
     (async () => {
       let tempNowPlaying = await getNowPlayingMoviesList();
-      setnowPlayingMoviesList({...tempNowPlaying});
-      let tempUpComing = await getUpComingMoviesList();
-      setUpComingMoviesList({...tempUpComing});
+      setNowPlayingMoviesList(tempNowPlaying.results);
+
       let tempPopular = await getPopularMoviesList();
-      setPopularMoviesList({...tempPopular});
+      setPopularMoviesList(tempPopular.results);
+
+      let tempUpComing = await getUpComingMoviesList();
+      setUpComingMoviesList(tempUpComing.results);
     })();
   }, []);
-
-  console.log('nowPlayingMoviesList', nowPlayingMoviesList);
-
   const searchMoviesFunction = () => {
     navigation.navigate('Search');
   };
-
   if (
     nowPlayingMoviesList == undefined &&
     nowPlayingMoviesList == null &&
@@ -104,6 +105,51 @@ const HomeScreen = ({navigation}: any) => {
       <View style={styles.InputHeaderContainer}>
         <InputHeader searchFunction={searchMoviesFunction} />
       </View>
+      <CategoryHeader title="Now Playing" />
+      <CategoryHeader title="Popular" />
+      <FlatList
+        data={popularMoviesList}
+        keyExtractor={(item: any) => item.id}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        bounces={false}
+        contentContainerStyle={styles.containerGap36}
+        renderItem={({item, index}) => (
+          <SubMovieCard
+            shoudlMarginatedAtEnd={true}
+            cardFunction={() => {
+              navigation.push('MovieDetails', {movieid: item.id});
+            }}
+            cardWidth={width / 3}
+            isFirst={index == 0 ? true : false}
+            isLast={index == popularMoviesList?.length - 1 ? true : false}
+            title={item.original_title}
+            imagePath={baseImagePath('w342', item.poster_path)}
+          />
+        )}
+      />
+      <CategoryHeader title="Upcoming" />
+      <FlatList
+        data={upcomingMoviesList}
+        keyExtractor={(item: any) => item.id}
+        horizontal
+        bounces={false}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.containerGap36}
+        renderItem={({item, index}) => (
+          <SubMovieCard
+            shoudlMarginatedAtEnd={true}
+            cardFunction={() => {
+              navigation.push('MovieDetails', {movieid: item.id});
+            }}
+            cardWidth={width / 3}
+            isFirst={index == 0 ? true : false}
+            isLast={index == upcomingMoviesList?.length - 1 ? true : false}
+            title={item.original_title}
+            imagePath={baseImagePath('w342', item.poster_path)}
+          />
+        )}
+      />
     </ScrollView>
   );
 };
@@ -125,6 +171,9 @@ const styles = StyleSheet.create({
   InputHeaderContainer: {
     marginHorizontal: SPACING.space_36,
     marginTop: SPACING.space_28,
+  },
+  containerGap36: {
+    gap: SPACING.space_36,
   },
 });
 
